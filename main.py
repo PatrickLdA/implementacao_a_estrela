@@ -10,12 +10,12 @@ class a_estrela():
         self.inicia_mapa()
         self.inicio()
 
-        # while(self.teste_objetivo):
-            # self.expande_no()
-            # lista_fn = self.calculo_esforco()
-            # self.movimenta(lista_fn)
+        while(self.teste_objetivo):
+            self.expande_no()
+            lista_fn = self.calculo_esforco()
+            self.movimenta(lista_fn)
 
-        # self.printa_estados()
+        self.printa_estados()
 
 	
     def inicio(self):
@@ -45,7 +45,6 @@ class a_estrela():
     Entrada: objetos da classe self.rota e self.nos_filhos
     Saída: lista de f(n), que combina a distancia euclidiana até o objetivo e a variação de altura até o próximo nó
     """
-
 
     def movimenta(self, lista_fn):
     """
