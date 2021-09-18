@@ -15,16 +15,20 @@ loc_inicio=[] # Ponto de partida
 loc_fim=[] # Objetivo final
 
 tabuleiro = IniciaMapa(dimensoes=DIMENSOES)
-loc_inicio, loc_fim = Inicio()
+loc_inicio, loc_fim = Inicio(tabuleiro)
 rota.append(loc_inicio)
 
-while(TesteObjetivo(rota[-1], loc_fim)):
-    lista_filhos = ExpandeNo(rota[-1])
+while(not TesteObjetivo(rota[-1], loc_fim)[0]):
+    print("\nAinda não chegamos lá!")
+
+    lista_filhos = ExpandeNo(rota[-1], tabuleiro)
     nos_filhos = nos_filhos + lista_filhos
 
-    lista_fn = CalculoEsforco(lista_filhos, loc_fim)
+    lista_fn = CalculoEsforco(tabuleiro=tabuleiro, loc_atual=rota[-1], lista_filhos=lista_filhos, loc_fim=loc_fim)
 
-    proximo_movimento = Movimenta(lista_fn, lista_filhos)
+    proximo_movimento = Movimenta(lista_fn, lista_filhos, rota, loc_fim)
+    print("Caminhando para" + str(proximo_movimento))
     rota.append(proximo_movimento)
 
+print("Chegamos ao destino!")
 PrintaEstados()

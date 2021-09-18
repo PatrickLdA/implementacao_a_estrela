@@ -1,13 +1,29 @@
-def ExpandeNo(posicao_atual):
-"""
-Função que lista os possíveis próximos movimentos (em outras palavras, olha ao redor e demarca a borda atual) 
-e dá append em self.nos_filhos
+def ExpandeNo(posicao_atual, tabuleiro):
+    """
+    Função que lista os possíveis próximos movimentos (em outras palavras, olha ao redor e demarca a borda atual) 
+    e dá append em self.nos_filhos
 
-Entrada: posicao atual
+    Entrada: posicao atual
 
-Saída: lista de nós filhos para o nó atual
-"""
+    Saída: lista de nós filhos para o nó atual
+    """
+
+    x_var_list = [0, 1, -1]
+    y_var_list = [0, 1, -1]
+
+    lista_bruta_candidatos = []
+
+    for x_var in x_var_list:
+        for y_var in y_var_list:
+            candidato = [posicao_atual[0]+x_var, posicao_atual[1]+y_var]
+            lista_bruta_candidatos.append(candidato)
+
+    lista_filhos = []
+
+    for valor in lista_bruta_candidatos:
+        if valor != posicao_atual and valor[0] <= tabuleiro.shape[0]-1 and valor[1] <= tabuleiro.shape[1]-1 and valor[0] >= 0 and valor[1] >=0: # Testa se não é o mesmo valor e se não excede as dimensoes do tabuleiro
+            lista_filhos.append(valor)
 
     return lista_filhos
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
