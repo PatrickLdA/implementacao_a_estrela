@@ -1,11 +1,13 @@
 import pygame
 
+NAVY = (0, 0, 128)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 255, 0)
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+PURPLE = (128, 0, 128)
 ORANGE = (255, 165, 0)
 GREY = (128, 128, 128)
 TURQUOISE = (64, 224, 208)
@@ -26,8 +28,8 @@ class Spot:
     def get_pos(self):
         return self.row, self.col
 
-    def is_closed(self, value):
-        return self.color == (0, 0, 255 - round(255/20)*value)
+    def is_closed(self):
+        return self.color == NAVY
 
     def is_open(self):
         return self.color == GREEN
@@ -43,16 +45,16 @@ class Spot:
 
     def set_hight(self, value):
         # tom de vermelho mais escuro conforme mais próximo de 20
-        self.color = (255 - round(255/20)*value, 0, 0)
+        self.color = (round(255/20*value), 0, 0)
 
     def reset(self, value):
-        self.color = (round(255/20)*value, 0, 0)
+        self.color = (round(255/20*value), 0, 0)
 
     def make_start(self):
         self.color = ORANGE
 
-    def make_closed(self, value):
-        self.color = (0, 0, 255 - round(255/20)*value)
+    def make_closed(self):
+        self.color = NAVY
 
     def make_open(self):
         self.color = GREEN
@@ -63,8 +65,8 @@ class Spot:
     def make_end(self):
         self.color = TURQUOISE
 
-    def make_path(self, value):
-        self.color = (255 - round(255/20)*value, 0, 255 - round(255/20)*value)
+    def make_path(self):
+        self.color = PURPLE
 
     def draw(self, win):
         pygame.draw.rect(

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from IniciaMapa import IniciaMapa
 from Inicio import Inicio
 from TesteObjetivo import TesteObjetivo
@@ -11,7 +9,6 @@ import InterfaceGrafica as IG
 import pygame
 from SpotClass import Spot
 
-
 rota = []  # Lista onde serão salvos os passos
 # Lista com todos os nós a serem explorados. Em outras palavras: borda.
 nos_filhos = []
@@ -21,7 +18,7 @@ tabuleiro = []  # Tabuleiro
 LARGURA = 800
 
 # Número de linhas que a janela conterá
-LINHAS = 20
+LINHAS = 40
 
 # Espaço ocupado por cada nó no tabuleiro
 GAP = LARGURA / LINHAS
@@ -56,7 +53,7 @@ while run:
                 start = spot
                 start.make_start()
                 loc_inicio = (round(start.x/GAP), round(start.y/GAP))
-                rota.append(loc_inicio)
+                rota.append((start.x, start.y))
                 print(f'Ponto inicial: {loc_inicio}')
 
             elif not end and spot != start:
@@ -87,7 +84,7 @@ while run:
                         spot.update_neighbors(grid)
 
                 IG.algorithm(lambda: IG.draw(WIN, grid, LINHAS, LARGURA),
-                             tabuleiro, grid, rota, start, end, nos_filhos, loc_fim)
+                             grid, rota, start, end, nos_filhos)
 
             if event.key == pygame.K_c:
                 start = None
