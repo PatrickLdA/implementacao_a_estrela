@@ -26,8 +26,7 @@ def IniciaMapa(dimensoes=[30, 30]):
     print(2*'\n')
 
     # tabuleiro = np.random.randint(20, size=(dimensoes[0], dimensoes[1]))
-    tabuleiro = np.random.randint(
-        0, high=20, size=(dimensoes[0], dimensoes[1]))
+    tabuleiro = np.random.randint(20, size=(dimensoes[0], dimensoes[1]))
 
     return tabuleiro
 

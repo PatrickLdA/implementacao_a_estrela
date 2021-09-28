@@ -45,7 +45,7 @@ class Spot:
 
     def set_hight(self, value):
         # tom de vermelho mais escuro conforme mais próximo de 20
-        self.color = (round(255/20*value), 0, 0)
+        self.color = (255 - round(255/20)*value, 0, 0)
 
     def reset(self, value):
         self.color = (round(255/20)*value, 0, 0)
