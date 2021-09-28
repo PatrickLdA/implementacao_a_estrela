@@ -3,7 +3,7 @@ import math
 def distancia_euclidiana(a, b):
     return (math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2))
 
-def CalculoEsforco(tabuleiro, loc_atual, lista_filhos, loc_fim):
+def CalculoEsforco(tabuleiro, loc_atual, lista_filhos, loc_fim, multiplicador_g=2):
     """
     Pega a posicao atual e calcula a heuristica para a borda atual em lista_filhos
 
@@ -33,7 +33,7 @@ def CalculoEsforco(tabuleiro, loc_atual, lista_filhos, loc_fim):
     # Soma do deslocamento e da heurística
     lista_fn=[]
     for g_n, h_n in zip(lista_g, lista_h):
-        lista_fn.append((g_n*30 + h_n*60)/900)
+        lista_fn.append(g_n*multiplicador_g + h_n)
 
 
     return lista_fn
