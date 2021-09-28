@@ -1,4 +1,5 @@
-def ExpandeNo(posicao_atual, tabuleiro):
+
+def ExpandeNo(posicao_atual, tabuleiro, grid):
     """
     Função que lista os possíveis próximos movimentos (em outras palavras, olha ao redor e demarca a borda atual) 
     e dá append em self.nos_filhos
@@ -22,9 +23,14 @@ def ExpandeNo(posicao_atual, tabuleiro):
 
     for valor in lista_bruta_candidatos:
         # Testa se não é o mesmo valor e se não excede as dimensoes do tabuleiro
-        if valor != posicao_atual and valor[0] <= len(tabuleiro)-1 and valor[1] <= len(tabuleiro[0])-1 and valor[0] >= 0 and valor[1] >= 0:
+        if (valor != posicao_atual) and (valor[0] <= len(tabuleiro)-1) and (valor[1] <= len(tabuleiro[0])-1) and (valor[0] >= 0) and (valor[1] >= 0):
             lista_filhos.append(valor)
+
+    """ for filho in lista_filhos:
+        grid[filho[0]][filho[1]].make_closed() """
 
     return lista_filhos
 
-# if __name__ == '__main__':
+
+if __name__ == '__main__':
+    print('hey')

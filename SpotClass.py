@@ -48,7 +48,7 @@ class Spot:
         self.color = (round(255/20*value), 0, 0)
 
     def reset(self, value):
-        self.color = (round(255/20*value), 0, 0)
+        self.color = (round(255/20)*value, 0, 0)
 
     def make_start(self):
         self.color = ORANGE
