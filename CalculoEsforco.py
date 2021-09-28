@@ -5,7 +5,7 @@ def distancia_euclidiana(a, b):
     return (math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2))
 
 
-def CalculoEsforco(tabuleiro, loc_atual, lista_filhos, loc_fim, multiplicador_g=2):
+def CalculoEsforco(tabuleiro, loc_atual, lista_filhos, loc_fim, multiplicador_g=0.25):
     """
     Pega a posicao atual e calcula a heuristica para a borda atual em lista_filhos
 
