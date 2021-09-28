@@ -2,38 +2,55 @@ from ExpandeNo import ExpandeNo
 import pygame
 import math
 from queue import PriorityQueue
-import TesteObjetivo
-import ExpandeNo
-import CalculoEsforco
-import Movimenta
+from TesteObjetivo import TesteObjetivo
+from ExpandeNo import ExpandeNo
+from CalculoEsforco import CalculoEsforco
+from Movimenta import Movimenta
 import SpotClass
+from time import sleep
 
 
-def reconstruct_path(came_from, current, draw):
+""" def reconstruct_path(came_from, current, draw):
     while current in came_from:
         current = came_from[current]
         current.make_path()
+        draw() """
+
+
+def reconstruct_path(rota, grid, draw):
+    for nodo in rota:
+        grid[nodo[0]][nodo[1]].make_path()
         draw()
 
 
-def algorithm(draw, tabuleiro, rota, start, end, nos_filhos):
-    loc_fim = (end.x, end.y)
-    while(not TesteObjetivo.TesteObjetivo(rota[-1], loc_fim)[0]):
-        print("\nAinda não chegamos lá!")
-        lista_filhos = ExpandeNo.ExpandeNo(rota[-1], tabuleiro)
+def algorithm(draw, tabuleiro, grid, rota, start, end, nos_filhos, loc_fim):
+    while(not TesteObjetivo(rota[-1], loc_fim)):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+        lista_filhos = ExpandeNo(rota[-1], tabuleiro, grid)
         nos_filhos = nos_filhos + lista_filhos
+        sleep(0.1)
 
-        lista_fn = CalculoEsforco.CalculoEsforco(
-            tabuleiro=tabuleiro, loc_atual=rota[-1], lista_filhos=lista_filhos, loc_fim=loc_fim)
+        lista_fn = CalculoEsforco(tabuleiro, rota[-1], lista_filhos, loc_fim)
 
-        proximo_movimento = Movimenta.Movimenta(
-            lista_fn, lista_filhos, rota, loc_fim)
-        print("Caminhando para" + str(proximo_movimento))
+        proximo_movimento = Movimenta(
+            lista_fn, lista_filhos, rota, loc_fim, grid)
+        print("\nCaminhando para" + str(proximo_movimento))
         rota.append(proximo_movimento)
+        sleep(0.1)
 
-        print("Chegamos ao destino!")
+        print(rota)
+        print(2*'\n')
+        draw()
 
-    return False
+        if TesteObjetivo(rota[-1], loc_fim):
+            reconstruct_path(rota, grid, draw)
+            start.make_start()
+            end.make_end()
+            print("Chegamos ao destino!")
+            return True
 
 
 def make_grid(tabuleiro, rows, width):
@@ -59,7 +76,6 @@ def draw_grid(win, rows, width):
 
 
 def draw(win, grid, rows, width):
-    win.fill(SpotClass.WHITE)
 
     for row in grid:
         for spot in row:
