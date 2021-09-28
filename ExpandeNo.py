@@ -26,8 +26,8 @@ def ExpandeNo(posicao_atual, tabuleiro, grid):
         if (valor != posicao_atual) and (valor[0] <= len(tabuleiro)-1) and (valor[1] <= len(tabuleiro[0])-1) and (valor[0] >= 0) and (valor[1] >= 0):
             lista_filhos.append(valor)
 
-    """ for filho in lista_filhos:
-        grid[filho[0]][filho[1]].make_closed() """
+    for filho in lista_filhos:
+        grid[filho[0]][filho[1]].make_closed(tabuleiro[filho[0]][filho[1]])
 
     return lista_filhos
 

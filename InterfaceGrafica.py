@@ -17,9 +17,9 @@ from time import sleep
         draw() """
 
 
-def reconstruct_path(rota, grid, draw):
+def reconstruct_path(rota, grid, tabuleiro, draw):
     for nodo in rota:
-        grid[nodo[0]][nodo[1]].make_path()
+        grid[nodo[0]][nodo[1]].make_path(tabuleiro[nodo[0]][nodo[1]])
         draw()
 
 
@@ -46,7 +46,7 @@ def algorithm(draw, tabuleiro, grid, rota, start, end, nos_filhos, loc_fim):
         draw()
 
         if TesteObjetivo(rota[-1], loc_fim):
-            reconstruct_path(rota, grid, draw)
+            reconstruct_path(rota, grid, tabuleiro, draw)
             start.make_start()
             end.make_end()
             print("Chegamos ao destino!")
