@@ -4,9 +4,11 @@ from TesteObjetivo import TesteObjetivo
 from ExpandeNo import ExpandeNo
 from CalculoEsforco import CalculoEsforco
 from Movimenta import Movimenta
+
 from random import randint
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 # %%
 def sorteio_pontos_aleatorios(numero_sorteios):
@@ -26,7 +28,7 @@ def salva_lista(lista, caminho):
     txtfile.close()
 
 # %%
-lista_multip_g=[0, 0.25, 0.5, 0.75, 1, 2, 3]
+lista_multip_g= [round(i,1) for i in np.arange(0, 3.1, .1)] #[0, 0.25, 0.5, 0.75, 1, 2, 3]
 salva_lista(lista_multip_g, 'resultados_teste_heuristica/lista_multip_g.txt')
 
 lista_inicio=sorteio_pontos_aleatorios(50)
@@ -80,3 +82,76 @@ df = pd.DataFrame(result_list, columns=["loc_inicio", "loc_fim", "multip_g", "nu
 
 # %%
 df.to_csv("resultados_teste_heuristica/compilado_resultados.csv")
+# %%
+# Plotagem da variação do número de passos com o incremento de multip_g
+#ax = df[['multip_g', 'numero_passos']].dropna().boxplot(by='multip_g', showfliers=False, figsize=[23,12])
+
+ax = df[['multip_g', 'numero_passos']].dropna().groupby('multip_g').mean().plot(figsize=[25,10])
+plt.savefig('resultados_teste_heuristica/variacao_passos_medios.png')
+plt.show()
+
+# %%
+# Plotagem da variação de altura com o incremento de multip_g
+#ax = df[['multip_g', 'variacao_altura']].dropna().boxplot(by='multip_g', showfliers=False, figsize=[23,12])
+
+ax = df[['multip_g', 'variacao_altura']].dropna().groupby('multip_g').mean().plot(figsize=[25,10])
+plt.savefig('resultados_teste_heuristica/variacao_altura_media.png')
+plt.show()
+
+# %%
+# Plotagem de percentual de testes não convergentes
+null_plot = df[['multip_g', 'variacao_altura']].drop('multip_g', 1).isna().groupby(df['multip_g']).sum()*2
+
+null_plot.plot.bar(figsize=[25,10])
+plt.savefig('resultados_teste_heuristica/convergencia_percentual.png')
+
+# %%
+ax = null_plot.reset_index().plot(x='multip_g', figsize=[25,10], use_index=False, kind='bar')#, kind='bar')
+
+df[['multip_g', 'variacao_altura']].dropna().groupby('multip_g').mean().plot(color='r', ax=ax, use_index=False)
+
+df[['multip_g', 'numero_passos']].dropna().groupby('multip_g').mean().plot(color='g', ax=ax, use_index=False)
+
+
+plt.show()
+
+# %%
+fig, ax1 = plt.subplots(figsize=[25,10])
+
+color = 'tab:red'
+ax1.set_xlabel('')
+ax1.set_ylabel('', color=color)
+ax1.bar(x=null_plot.index, height=null_plot['variacao_altura'], 
+            color=color, width=.03, alpha=.5,
+            label='Percentagem de não convergência')
+ax1.tick_params(axis='y', labelcolor=color)
+
+ax1.plot(df[['multip_g', 'numero_passos']].dropna().groupby('multip_g').mean().index,
+            df[['multip_g', 'numero_passos']].dropna().groupby('multip_g').mean()['numero_passos'].tolist(),
+            color = color,
+            label='Número de passos médios')
+
+ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+
+color = 'tab:blue'
+ax2.set_ylabel('', color=color)  # we already handled the x-label with ax1
+ax2.plot(df[['multip_g', 'variacao_altura']].dropna().groupby('multip_g').mean().index, df[['multip_g', 'variacao_altura']].dropna().groupby('multip_g').mean().values,
+            color=color, label='Variação da altura')
+ax2.tick_params(axis='y', labelcolor=color)
+
+fig.tight_layout()  # otherwise the right y-label is slightly clipped
+
+# ask matplotlib for the plotted objects and their labels
+lines, labels = ax1.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+ax2.legend(lines + lines2, labels + labels2, loc=0)
+
+
+plt.xticks(null_plot['variacao_altura'].index)
+ax1.tick_params(axis='both', which='major', labelsize=20)
+ax2.tick_params(axis='both', which='major', labelsize=20)
+
+plt.savefig('resultados_teste_heuristica/compilado.png')
+plt.show()
+
+# %%
