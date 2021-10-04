@@ -10,7 +10,7 @@ from PrintaEstados import PrintaEstados
 import InterfaceGrafica as IG
 import pygame
 from SpotClass import Spot
-
+import os
 
 rota = []  # Lista onde serão salvos os passos
 # Lista com todos os nós a serem explorados. Em outras palavras: borda.
@@ -48,6 +48,15 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
+        if event.type == pygame.MOUSEMOTION:
+            mouse_current_pos = pygame.mouse.get_pos()
+            grid_current_pos = round((mouse_current_pos[0]+LINHAS)/GAP)-1,round((mouse_current_pos[1]+LINHAS)/GAP)-1
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if pygame.mouse.get_pressed()[1]:
+                print(f'\nPosição Atual: {grid[grid_current_pos[0]][grid_current_pos[1]].get_pos()}', end= '   ')
+                print(f'Altitude Atual: {tabuleiro[grid_current_pos[0]][grid_current_pos[1]]} m',end='\n')  
+        
         if pygame.mouse.get_pressed()[0]:  # LEFT
             pos = pygame.mouse.get_pos()
             linha, coluna = IG.get_clicked_pos(pos, LINHAS, LARGURA)
@@ -93,6 +102,13 @@ while run:
                 start = None
                 end = None
                 grid = IG.make_grid(tabuleiro, LINHAS, LARGURA)
-                print('Tabuleiro resetado.')
+                rota = []
+                print("\nTabuleiro resetado.")
+
+            if event.key == pygame.K_r:
+                print("\nRota: ",rota)
+
+            if event.key == pygame.K_x:
+                os.system('cls')
 
 pygame.quit()
