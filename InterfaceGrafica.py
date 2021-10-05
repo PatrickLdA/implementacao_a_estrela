@@ -50,7 +50,7 @@ def algorithm(draw, tabuleiro, grid, rota, start, end, nos_filhos, loc_fim):
             start.make_start()
             end.make_end()
             print("Chegamos ao destino!")
-            print("\nCusto Final: ",sum(lista_fn))
+            print("\nCusto Final: ",sum([abs(i) for i in lista_fn]))
             print("\nCusto Parcial: ", lista_fn)
             return True
 

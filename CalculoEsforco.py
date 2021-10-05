@@ -17,11 +17,12 @@ def CalculoEsforco(tabuleiro, loc_atual, lista_filhos, loc_fim, multiplicador_g=
     """
     # Calculo do custo de deslocamento g(n)
     lista_g = []
+    
     for candidato in lista_filhos:
         altura_atual = tabuleiro[loc_atual[0]][loc_atual[1]]
         altura_candidato = tabuleiro[candidato[0]][candidato[1]]
 
-        custo_deslocamento = abs(altura_candidato - altura_atual)
+        custo_deslocamento = altura_candidato - altura_atual
 
         lista_g.append(custo_deslocamento)
 
